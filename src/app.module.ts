@@ -7,9 +7,18 @@ import { OrderModule } from './order/order.module';
 import { DeliveryModule } from './delivery/delivery.module';
 import { PaymentModule } from './payment/payment.module';
 import { NotificationModule } from './notification/notification.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { typeOrmConfig } from './config/database.config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
-  imports: [UsersModule, AuthModule, OrderModule, DeliveryModule, PaymentModule, NotificationModule],
+  imports: [ ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => typeOrmConfig(configService),
+      inject: [ConfigService],
+    }),
+    UsersModule, AuthModule, OrderModule, DeliveryModule, PaymentModule, NotificationModule],
   controllers: [AppController],
   providers: [AppService],
 })
