@@ -13,5 +13,4 @@ export const typeOrmConfig = (configService: ConfigService): TypeOrmModuleOption
     database: configService.get<string>('DB_NAME'),
     entities: [User, Order, Delivery],
     synchronize: true,
-    logging: true,
   });
