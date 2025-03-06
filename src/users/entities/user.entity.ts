@@ -24,6 +24,6 @@ export class User {
     this.password = await bcrypt.hash(this.password, 10);
   }
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'text' })
   refreshToken?: string | null; // Store hashed refresh token
 }

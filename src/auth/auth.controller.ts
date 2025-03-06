@@ -63,13 +63,13 @@ export class AuthController {
   }
 
   @Post('logout')
-  async logout(@Req() req, @Res({ passthrough: true }) response: Response) {
-    const refreshToken = req.cookies['refresh_token'];
-    if (!refreshToken) throw new UnauthorizedException('No refresh token provided');
+  async logout(@Body('refreshToken') refreshToken: string) {
+    if (!refreshToken) {
+      throw new UnauthorizedException('No refresh token provided');
+    }
 
     await this.authService.logout(refreshToken);
 
-    response.clearCookie('refresh_token');
     return { message: 'Logged out successfully' };
   }
 }

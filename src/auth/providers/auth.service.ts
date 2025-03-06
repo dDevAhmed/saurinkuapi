@@ -93,11 +93,13 @@ export class AuthService {
 
   async logout(refreshToken: string): Promise<void> {
     const user = await this.userRepository.findOne({ where: { refreshToken } });
+  
     if (!user) {
       throw new UnauthorizedException('Invalid refresh token');
     }
-
-    user.refreshToken = null; // Remove refresh token
-    await this.userRepository.save(user);
+  
+    // Ensure refreshToken is set to NULL and saved
+    user.refreshToken = null;
+    await this.userRepository.update(user.id, { refreshToken: null }); // Explicit update
   }
 }
