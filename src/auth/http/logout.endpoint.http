@@ -1,0 +1,6 @@
+POST http://localhost:3000/auth/logout
+Content-Type: application/json
+
+{
+  "refreshToken" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJuYWZpdWlnb0BleGFtcGxlLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTc0MTI1OTUyMCwiZXhwIjoxNzQxODY0MzIwfQ.2gWexY8fQnaundHG64fDfNWx9td2VgopSgEQk5SmsCI"
+}
