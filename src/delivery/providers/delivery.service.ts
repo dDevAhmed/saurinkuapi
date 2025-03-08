@@ -1,26 +1,65 @@
-import { Injectable } from '@nestjs/common';
-import { CreateDeliveryDto } from '../dto/create-delivery.dto';
-import { UpdateDeliveryDto } from '../dto/update-delivery.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Delivery } from '../entities/delivery.entity';
+import { DeliveryStatus } from '../enum/deliveryStatus.enum';
+import { Order } from 'src/order/entities/order.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class DeliveryService {
-  create(createDeliveryDto: CreateDeliveryDto) {
-    return 'This action adds a new delivery';
+  constructor(
+    @InjectRepository(Delivery)
+    private readonly deliveryRepo: Repository<Delivery>,
+    @InjectRepository(Order) private readonly orderRepo: Repository<Order>,
+    @InjectRepository(User) private readonly userRepo: Repository<User>,
+  ) {}
+
+  // Assign a delivery agent to an order
+  async assignDeliveryAgent(orderId: number, deliveryAgentId: number) {
+    const order = await this.orderRepo.findOne({ where: { id: orderId } });
+    if (!order) throw new NotFoundException(`Order ${orderId} not found`);
+
+    const agent = await this.userRepo.findOne({
+      where: { id: deliveryAgentId },
+    });
+    if (!agent)
+      throw new NotFoundException(`Agent ${deliveryAgentId} not found`);
+
+    const delivery = this.deliveryRepo.create({
+      order,
+      deliveryAgent: agent,
+      status: DeliveryStatus.PENDING,
+    });
+
+    return await this.deliveryRepo.save(delivery);
   }
 
-  findAll() {
-    return `This action returns all delivery`;
+  // Get deliveries assigned to an agent
+  async getDeliveriesForAgent(agentId: number) {
+    return await this.deliveryRepo.find({
+      where: { deliveryAgent: { id: agentId } },
+      relations: ['order', 'deliveryAgent'],
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} delivery`;
+  // Update delivery status
+  async updateDeliveryStatus(deliveryId: number, status: DeliveryStatus) {
+    const delivery = await this.deliveryRepo.findOne({
+      where: { id: deliveryId },
+    });
+    if (!delivery)
+      throw new NotFoundException(`Delivery ${deliveryId} not found`);
+
+    delivery.status = status;
+    return await this.deliveryRepo.save(delivery);
   }
 
-  update(id: number, updateDeliveryDto: UpdateDeliveryDto) {
-    return `This action updates a #${id} delivery`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} delivery`;
+  // Retrieve delivery history for a customer
+  async getDeliveryHistory(customerId: number) {
+    return await this.deliveryRepo.find({
+      where: { order: { customer: { id: customerId } } },
+      relations: ['order', 'deliveryAgent'],
+    });
   }
 }
