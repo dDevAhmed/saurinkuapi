@@ -1,34 +1,39 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Get, Patch, Param, Body } from '@nestjs/common';
 import { DeliveryService } from './providers/delivery.service';
-import { CreateDeliveryDto } from './dto/create-delivery.dto';
-import { UpdateDeliveryDto } from './dto/update-delivery.dto';
+import { DeliveryStatus } from './enum/deliveryStatus.enum';
 
 @Controller('delivery')
 export class DeliveryController {
   constructor(private readonly deliveryService: DeliveryService) {}
 
-  @Post()
-  create(@Body() createDeliveryDto: CreateDeliveryDto) {
-    return this.deliveryService.create(createDeliveryDto);
+  @Post('assign')
+  async assignDeliveryAgent(
+    @Body() body: { orderId: number; deliveryAgentId: number },
+  ) {
+    return await this.deliveryService.assignDeliveryAgent(
+      body.orderId,
+      body.deliveryAgentId,
+    );
   }
 
-  @Get()
-  findAll() {
-    return this.deliveryService.findAll();
+  @Get('agent/:agentId')
+  async getDeliveriesForAgent(@Param('agentId') agentId: number) {
+    return await this.deliveryService.getDeliveriesForAgent(agentId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.deliveryService.findOne(+id);
+  @Patch('status/:deliveryId')
+  async updateDeliveryStatus(
+    @Param('deliveryId') deliveryId: number,
+    @Body() body: { status: DeliveryStatus },
+  ) {
+    return await this.deliveryService.updateDeliveryStatus(
+      deliveryId,
+      body.status,
+    );
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDeliveryDto: UpdateDeliveryDto) {
-    return this.deliveryService.update(+id, updateDeliveryDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.deliveryService.remove(+id);
+  @Get('history/:customerId')
+  async getDeliveryHistory(@Param('customerId') customerId: number) {
+    return await this.deliveryService.getDeliveryHistory(customerId);
   }
 }

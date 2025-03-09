@@ -1,7 +1,7 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { DeliveryStatus } from "../enum/deliveryStatus.enum";
-import { Order } from "src/order/entities/order.entity";
-import { User } from "src/users/entities/user.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { DeliveryStatus } from '../enum/deliveryStatus.enum';
+import { Order } from 'src/order/entities/order.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Entity()
 export class Delivery {
@@ -14,7 +14,11 @@ export class Delivery {
   @ManyToOne(() => User, (user) => user.id)
   deliveryAgent: User;
 
-  @Column({ type: 'enum', enum: DeliveryStatus, default: DeliveryStatus.PENDING })
+  @Column({
+    type: 'enum',
+    enum: DeliveryStatus,
+    default: DeliveryStatus.PENDING,
+  })
   status: DeliveryStatus;
 
   @Column({ type: 'timestamp', nullable: true })
@@ -26,4 +30,3 @@ export class Delivery {
   @Column({ type: 'text', nullable: true })
   notes: string;
 }
-

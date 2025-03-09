@@ -12,13 +12,21 @@ import { typeOrmConfig } from './config/database.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
-  imports: [ ConfigModule.forRoot({ isGlobal: true }),
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: ['.env.example'] }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => typeOrmConfig(configService),
+      useFactory: (configService: ConfigService) =>
+        typeOrmConfig(configService),
       inject: [ConfigService],
     }),
-    UsersModule, AuthModule, OrderModule, DeliveryModule, PaymentModule, NotificationModule],
+    UsersModule,
+    AuthModule,
+    OrderModule,
+    DeliveryModule,
+    PaymentModule,
+    NotificationModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
