@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsOptional } from "class-validator";
+import { IsEnum, IsNotEmpty, IsOptional } from "class-validator";
+import { OrderStatus } from "../enum/orderStatus.enum";
 
 export class CreateOrderDto {
     @IsNotEmpty()
@@ -6,4 +7,8 @@ export class CreateOrderDto {
     
     @IsOptional()
     deliveryAgentId?: number;
+
+    @IsNotEmpty()
+    @IsEnum(OrderStatus)
+    status: OrderStatus
   }
