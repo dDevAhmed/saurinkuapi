@@ -13,13 +13,14 @@ import { RegisterDTO, LoginDTO } from './dto/create-auth.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { AuthenticatedRequest } from './interfaces/request.interface';
 import { Response } from 'express';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('register')
-  async register(@Body() registerDTO: RegisterDTO) {
+  async register(@Body() registerDTO: CreateUserDto) {
     return this.authService.register(registerDTO);
   }
 

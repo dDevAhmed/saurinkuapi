@@ -32,8 +32,8 @@ export class DeliveryController {
     );
   }
 
-  @Get('history/:customerId')
-  async getDeliveryHistory(@Param('customerId') customerId: number) {
-    return await this.deliveryService.getDeliveryHistory(customerId);
-  }
+  // @Get('history/:customerId')
+  // async getDeliveryHistory(@Param('customerId') customerId: number) {
+  //   return await this.deliveryService.getDeliveryHistory(customerId);
+  // }
 }

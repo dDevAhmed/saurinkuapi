@@ -1,0 +1,46 @@
+
+# Endpoints to gets all orders 
+GET http://localhost:3000/orders/1
+
+
+# Endpoints to User gets all his orders 
+GET http://localhost:3000/orders/my-orders
+
+
+# Endpoints to gets an order by tracking ID 
+GET http://localhost:3000/orders/#56748
+
+
+# Endpoints to create an order
+POST http://localhost:3000/orders
+Content-Type: application/json
+  {
+    "description": "TWO PAIRS OF SHOES AN A HAND BAG ",
+    "pickupTime": "12:00pm",
+    "deliveryTime" : "3:00pm ", 
+    "pickupDate": "15/03/2025 ",
+    "deliveryDate": "16/03/2025 "
+    // 2025-02-17T23:15:00Z
+  }
+
+
+# Endpoints to Update an Order 
+PATCH http://localhost:3000/orders/1
+Content-Type: application/json
+
+  {
+
+  }
+
+
+# Endpoints to Update order Status 
+PATCH http://localhost:3000/orders/status
+Content-Type: application/json
+
+  {
+    "orderStatus" : ""
+  }
+
+
+# Endpoints to cancel an Order 
+DELETE http://localhost:3000/orders/1

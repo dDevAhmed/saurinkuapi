@@ -60,11 +60,11 @@ export class DeliveryService {
     return await this.deliveryRepo.save(delivery);
   }
 
-  // Retrieve delivery history for a customer
-  async getDeliveryHistory(customerId: number) {
-    return await this.deliveryRepo.find({
-      where: { order: { customer: { id: customerId } } },
-      relations: ['order', 'deliveryAgent'],
-    });
-  }
+  // // Retrieve delivery history for a customer
+  // async getDeliveryHistory(customerId: number) {
+  //   return await this.deliveryRepo.find({
+  //     where: { order: { customer: { id: customerId } } },
+  //     relations: ['order', 'deliveryAgent'],
+  //   });
+  // }
 }
