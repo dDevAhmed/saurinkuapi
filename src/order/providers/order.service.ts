@@ -45,6 +45,7 @@ export class OrderService {
     return await this.orderRepo.save(order); // save the order in the DB
   }
 
+  
   // THIS FN FINDS ALL ORDERS WITH PAGINATION
   public async findAll(
     paginationDto: PaginationDto,
@@ -58,6 +59,7 @@ export class OrderService {
     return { orders, total }; // returns the orders and the total number of orders
   }
 
+
   //THIS FN FETCHES ORDER DETAILS BY ID
   public async findOne(id: number): Promise<Order> {
     const order = await this.orderRepo.findOne({
@@ -69,6 +71,7 @@ export class OrderService {
     }
     return order;
   }
+
 
   //THIS FN RETRIEVES ORDERS BY A CUSTOMER
   public async findOrdersByCustomer(
@@ -94,6 +97,8 @@ export class OrderService {
 
     return { orders, total };
   }
+
+
 
   // THIS UPDATES AN ORDER BY IT'S STATUS
   public async updateOrder(id: number, status: OrderStatus): Promise<Order> {

@@ -27,7 +27,7 @@ export class OrderController {
   }
 
   @Get()
-  @UsePipes(new ValidationPipe({transform: true }))
+  @UsePipes(new ValidationPipe({ transform: true }))
   findAll(@Query() pagination: PaginationDto) {
     return this.orderService.findAll(pagination);
   }
