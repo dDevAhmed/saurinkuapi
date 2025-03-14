@@ -11,8 +11,12 @@ export class DeliveryService {
   constructor(
     @InjectRepository(Delivery)
     private readonly deliveryRepo: Repository<Delivery>,
-    @InjectRepository(Order) private readonly orderRepo: Repository<Order>,
-    @InjectRepository(User) private readonly userRepo: Repository<User>,
+
+    @InjectRepository(Order)
+    private readonly orderRepo: Repository<Order>,
+
+    @InjectRepository(User) 
+    private readonly userRepo: Repository<User>,
   ) {}
 
   // Assign a delivery agent to an order
@@ -35,6 +39,7 @@ export class DeliveryService {
     return await this.deliveryRepo.save(delivery);
   }
 
+
   // Get deliveries assigned to an agent
   async getDeliveriesForAgent(agentId: number) {
     return await this.deliveryRepo.find({
@@ -55,11 +60,11 @@ export class DeliveryService {
     return await this.deliveryRepo.save(delivery);
   }
 
-  // Retrieve delivery history for a customer
-  async getDeliveryHistory(customerId: number) {
-    return await this.deliveryRepo.find({
-      where: { order: { customer: { id: customerId } } },
-      relations: ['order', 'deliveryAgent'],
-    });
-  }
+  // // Retrieve delivery history for a customer
+  // async getDeliveryHistory(customerId: number) {
+  //   return await this.deliveryRepo.find({
+  //     where: { order: { customer: { id: customerId } } },
+  //     relations: ['order', 'deliveryAgent'],
+  //   });
+  // }
 }
